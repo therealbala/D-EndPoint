@@ -69,9 +69,37 @@ def identify():
         cur.close()  
 
             
+        d = data 
 
-        ret = {"msg":"method allowed",
-              'email':email,'phoneNumber':phoneNumber,'dd':data} 
+        ######## json part 
+        out = 	{
+                "contact":{
+                    "primaryContatctId": 0,
+                    "emails": [],
+                    "phoneNumbers": [],
+                    "secondaryContactIds": [],
+                }
+            }
+
+        cpnumber = []
+        cemail = []
+        csid = [] 
+        
+        for i in range(len(d)): 
+            out["contact"]["primaryContactId"] = d[i][3] 
+            if d[i][1] not in cpnumber: 
+                cpnumber.append(d[i][1]) 
+            if d[i][2] not in cemail: 
+                cemail.append(d[i][2]) 
+            if d[i][0] not in csid:
+                csid.append(d[i][0])
+                
+        out["contact"]["emails"] = cemail
+        out["contact"]["phoneNumbers"] = cpnumber 
+        out["contact"]["secondaryContactIds"] = csid 
+ 
+
+        ret = out 
 
       else:
         rew = {'msg':'json body only allowed'} 
